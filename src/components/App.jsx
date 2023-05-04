@@ -1,4 +1,6 @@
 import { Component } from "react";
+import { Searchbar } from "./Searchbar/Searchbar";
+import { AppDiv } from "./App.styled";
 
 export class App extends Component {
     state = {
@@ -11,8 +13,8 @@ export class App extends Component {
 
     render() {
         return(
-            <AppDiv className={AppDivStyle}>
-                
+            <AppDiv>
+                <Searchbar setQuery={this.setQuery}/>
             </AppDiv>
         )
     }
