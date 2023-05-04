@@ -2,6 +2,8 @@ import { Component } from "react";
 import PropTypes from 'prop-types';
 import { ImgGallery } from "./ImageGallery.styled";
 import { ImageGalleryItem } from "components/ImageGalleryItem/ImageGalleryItem";
+import { Modal } from "../Modal/Modal.styled";
+import { fetchImages } from "../FetchApi/FetchApi";
 
 export class ImageGallery extends Component {
     state = {
