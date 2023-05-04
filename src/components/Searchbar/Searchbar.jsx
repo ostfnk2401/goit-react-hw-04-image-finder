@@ -1,6 +1,7 @@
 import { Component } from "react";
 import { BsSearch } from 'react-icons/bs'
 import { SearchHeader,SearchForm, SearchButton, SearchLabel, SearchFormInput } from './Searchbar.styled';
+import PropTypes from 'prop-types';
 
 export class Searchbar extends Component {
     state = {
@@ -19,7 +20,9 @@ export class Searchbar extends Component {
                     <SearchButton type="submit" className="button">
                         <BsSearch/>
                     </SearchButton>
-                    <SearchLabel className="button-label">Search</SearchLabel>
+                    <SearchLabel className="button-label">
+                        <span className="search-span">Search</span>
+                    </SearchLabel>
                     <SearchFormInput 
                     className="input"
                     type="text"
@@ -32,3 +35,7 @@ export class Searchbar extends Component {
         );
     }
 }
+
+Searchbar.propTypes = {
+    setQuery: PropTypes.func.isRequired,
+  };

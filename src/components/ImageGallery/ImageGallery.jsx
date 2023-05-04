@@ -2,14 +2,16 @@ import { Component } from "react";
 import PropTypes from 'prop-types';
 import { ImgGallery } from "./ImageGallery.styled";
 import { ImageGalleryItem } from "components/ImageGalleryItem/ImageGalleryItem";
-import { Modal } from "../Modal/Modal.styled";
+import { ImageModal } from "../Modal/Modal";
 import { fetchImages } from "../FetchApi/FetchApi";
 import { Button } from "../Button/Button";
+import { Loader } from "../Loader/Loader";
 
 export class ImageGallery extends Component {
     state = {
-        image: [],
+        images: [],
         query: '',
+        loadMore: false,
         page: 1,
         error: null,
         isLoading: false,
@@ -20,13 +22,13 @@ export class ImageGallery extends Component {
         }
     };
 
-    static getStateProps(props, state) {
+    static getDerivedStateFromProps(props, state) {
         const { query } = props;
         if (query !== state.query) {
             return { page: 1, query, images: [] };
         }
         return null;
-    };
+    }
     
     getSnapshotBeforeUpdate() {
         return document.body.clientHeight + 72;
@@ -48,9 +50,13 @@ export class ImageGallery extends Component {
     getSearchedImages = async () => {
         this.setState({ isLoading: true });
         try {
-            const data = await fetchImages( this.props.query, this.state.page );
+            const data = await fetchImages(this.props.query, this.state.page);
             this.setState( prev => ({ images: [...prev.images, ...data.hits] }));
-
+            if (this.state.page * 12 < data.totalHits) {
+                this.setState(() => ({ loadMore: true }));
+            } else {
+                this.setState(() => ({ loadMore: false }));
+            }
         } catch (error) {
             this.setState({ error: error.message });
         } finally {
@@ -70,10 +76,11 @@ export class ImageGallery extends Component {
     };
 
     render() {
+        const { images, isLoading, loadMore, isModalOpen, dataModal } = this.state;
         return (
             <>
                 <ImgGallery className="gallery">
-                    {this.state.images.map(image => (
+                    {images.map(image => (
                         <ImageGalleryItem
                             key={image.id}
                             image={image}
@@ -81,11 +88,11 @@ export class ImageGallery extends Component {
                         />
                     ))}
                 </ImgGallery>
-                    {this.state.isLoading && <Loader />}
-                    {this.state.images.length > 0 && <Button onClick={this.changePage} />}
-                    {this.state.isModalOpen && (
-                        <Modal image={this.state.dataModal} onClose={this.openModal} />
-                    )}
+                {isLoading && <Loader />}
+                {loadMore && <Button onClick={this.changePage} />}
+                {isModalOpen && (
+                    <ImageModal image={dataModal} onClose={this.openModal} />
+                )}
             </>
         );
     }
