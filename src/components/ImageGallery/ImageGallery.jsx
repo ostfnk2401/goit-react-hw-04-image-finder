@@ -4,6 +4,7 @@ import { ImgGallery } from "./ImageGallery.styled";
 import { ImageGalleryItem } from "components/ImageGalleryItem/ImageGalleryItem";
 import { Modal } from "../Modal/Modal.styled";
 import { fetchImages } from "../FetchApi/FetchApi";
+import { Button } from "../Button/Button";
 
 export class ImageGallery extends Component {
     state = {
