@@ -1,9 +1,9 @@
 import { Component } from "react";
 import PropTypes from 'prop-types';
 import { ImgGallery } from "./ImageGallery.styled";
-import { ImageGalleryItem } from "components/ImageGalleryItem/ImageGalleryItem";
+import { ImageGalleryItem } from "../ImageGalleryItem/ImageGalleryItem";
 import { ImageModal } from "../Modal/Modal";
-import { fetchImages } from "../FetchApi/FetchApi";
+import { fetchImages } from "../../FetchApi/FetchApi";
 import { Button } from "../Button/Button";
 import { Loader } from "../Loader/Loader";
 
