@@ -1,4 +1,5 @@
 import { useState } from "react";
+import PropTypes from "prop-types";
 import { ButtonClass } from "./Button.styled";
 
 export const Button = ({ onClick = null }) => {
@@ -15,4 +16,11 @@ export const Button = ({ onClick = null }) => {
       {isLoading ? 'Loading...' : 'Load more'}
     </ButtonClass>
   );
+};
+
+Button.propTypes = {
+  onClick: PropTypes.func.isRequired,
+  disabled: PropTypes.bool,
+  className: PropTypes.string,
+  children: PropTypes.node,
 };
