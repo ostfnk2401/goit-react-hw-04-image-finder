@@ -20,7 +20,4 @@ export const Button = ({ onClick = null }) => {
 
 Button.propTypes = {
   onClick: PropTypes.func.isRequired,
-  disabled: PropTypes.bool,
-  className: PropTypes.string,
-  children: PropTypes.node,
 };
