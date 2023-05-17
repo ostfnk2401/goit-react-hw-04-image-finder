@@ -18,7 +18,6 @@ import { Loader } from "../Loader/Loader";
     alt: '',
   });
   const [loadMore, setLoadMore] = useState(false);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
     setImages([]);
@@ -26,23 +25,23 @@ import { Loader } from "../Loader/Loader";
   }, [query]);
 
   useEffect(() => {
+    const getSearchedImages = async () => {
+      setIsLoading(true);
+      try {
+        const data = await fetchImages(query, page);
+        setImages(prevImages => [...prevImages, ...data.hits]);
+        setLoadMore(page * 12 < data.totalHits);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
     if (query) {
       getSearchedImages();
     }
   }, [query, page]);
-
-  const getSearchedImages = async () => {
-    setIsLoading(true);
-    try {
-      const data = await fetchImages(query, page);
-      setImages(prevImages => [...prevImages, ...data.hits]);
-      setLoadMore(page * 12 < data.totalHits);
-    } catch (error) {
-      setError(error.message);
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   const changePage = () => {
     setPage(prevPage => prevPage + 1);
